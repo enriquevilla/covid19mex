@@ -11,7 +11,7 @@ export const Table = () => {
         const corsAnywhere = "https://villa-cors.herokuapp.com/";
         const localCors = "http://localhost:3001/";
         const wikiData = "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Mexico";
-        await fetch(localCors+wikiData, { method: "POST" })
+        await fetch(corsAnywhere+wikiData, { method: "POST" })
             .then(r=>r.text())
             .then(html=>{
                 let parser = new DOMParser();
