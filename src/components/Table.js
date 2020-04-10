@@ -11,7 +11,7 @@ export const Table = () => {
         const corsAnywhere = "https://villa-cors.herokuapp.com/";
         const localCors = "http://localhost:3001/";
         const wikiData = "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Mexico";
-        await fetch(corsAnywhere+wikiData, { method: "POST" })
+        await fetch(corsAnywhere+wikiData)
             .then(r=>r.text())
             .then(html=>{
                 let parser = new DOMParser();
@@ -37,9 +37,9 @@ export const Table = () => {
                 doc.querySelectorAll(".leyendas > th")[3].innerText = "Recuperados";
                 for (let i = 2; i <= 33; i++) {
                     doc.querySelectorAll("tr")[i].querySelector("th").setAttribute("style", "text-align: right");
-                    if (i === 2) {
+                    if (doc.querySelectorAll("tr")[i].querySelector("th").innerText.search("Mexico City") !== -1) {
                         doc.querySelectorAll("tr")[i].querySelector("th").innerText = "Ciudad de México";
-                    } else if (i === 3) {
+                    } else if (doc.querySelectorAll("tr")[i].querySelector("th").innerText.search("State of Mexico") !== -1) {
                         doc.querySelectorAll("tr")[i].querySelector("th").innerText = "Estado de México";
                     }
                 }
