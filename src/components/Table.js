@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import Parser from "html-react-parser";
+import ReactSpinner from "react-loader-spinner";
 
 export const Table = () => {
     const [title] = useState(document.createElement("h4"));
     const [table, setTable] = useState("");
     const [sources] = useState(document.createElement("div"));
     const [notes] = useState(document.createElement("div"));
+    const loading = <ReactSpinner 
+                        type="Oval"
+                        color="#888888"
+                        height={100}
+                        width={100}
+                        visible={true}
+                    />;
 
     let getData = async () => {
         const corsAnywhere = "https://villa-cors.herokuapp.com/";
         const localCors = "http://localhost:3001/";
         const wikiData = "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Mexico";
-        await fetch(corsAnywhere+wikiData)
+        await fetch(localCors+wikiData)
             .then(r=>r.text())
             .then(html=>{
                 let parser = new DOMParser();
@@ -73,10 +81,10 @@ export const Table = () => {
 
     return (
         <div>
-            {Parser(title.outerHTML)}
-            {Parser(table)}
-            {Parser(sources.outerHTML)}
-            {Parser(notes.outerHTML)}
+            {table!==""?Parser(title.outerHTML):loading}
+            {table!==""?Parser(table):""}
+            {table!==""?Parser(sources.outerHTML):""}
+            {table!==""?Parser(notes.outerHTML):""}
         </div>
     )
 }
