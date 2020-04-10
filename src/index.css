@@ -8,14 +8,14 @@ body {
     text-align: center;
 }
 
-caption {
-    padding-bottom: 10px;
-}
-
 table, thead, th, tr, td {
     border: 1px solid black;
     border-collapse: collapse;
     font-size: 12px;
+}
+
+table {
+    margin: 0 auto;
 }
 
 .leyendas {
@@ -24,16 +24,11 @@ table, thead, th, tr, td {
 
 .totales {
     background-color: gray;
+    text-align: right;
 }
 
 .fuentes-notas {
     font-size: 10px;
-}
-
-.separador {
-    margin: 20px auto;
-    border-bottom: 1px gray solid;
-    width: 380px;
 }
 
 ol {

@@ -9,35 +9,46 @@ export const Table = () => {
 
     let getData = async () => {
         const corsAnywhere = "https://villa-cors.herokuapp.com/";
-        const wikiData = "https://es.wikipedia.org/wiki/Pandemia_de_enfermedad_por_coronavirus_de_2020_en_México";
-        await fetch(corsAnywhere+wikiData, { method: "POST" })
+        const localCors = "http://localhost:3001/";
+        const wikiData = "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Mexico";
+        await fetch(localCors+wikiData, { method: "POST" })
             .then(r=>r.text())
             .then(html=>{
                 let parser = new DOMParser();
                 let doc = parser.parseFromString(html, 'text/html').querySelector(".wikitable");
-                title.innerText = doc.querySelector("caption").innerText;
+                title.innerText = "Casos de COVID-19 por entidad federativa en México"
                 doc.querySelector("caption").remove();
                 doc.removeAttribute("class");
-                doc.querySelectorAll("abbr").forEach(i => {
-                    i.replaceWith(i.innerText);
-                });
-                doc.querySelector("sup").innerText = "[1]";
-                doc.querySelectorAll("sup")[1].innerText = "[2]";
                 doc.querySelector("tr").classList.add("leyendas");
-                doc.querySelectorAll("tr")[1].classList.add("leyendas");
-                doc.querySelector(".sortbottom").classList.add("totales");
-                doc.querySelector(".sortbottom").classList.remove("sortbottom");
-                doc.querySelectorAll(".sortbottom sup").forEach(i => {
+                doc.querySelectorAll("tr")[1].classList.add("totales");
+                doc.querySelectorAll(".totales > th").forEach(i => {
+                    i.removeAttribute("style");
+                    i.classList.add("totales");
+                });
+                doc.querySelectorAll("img").forEach(i => {
                     i.remove();
                 });
-                doc.querySelectorAll(".mw-cite-backlink").forEach(i => {
+                doc.querySelectorAll(".flagicon").forEach(i => {
                     i.remove();
                 });
+                doc.querySelectorAll(".leyendas > th")[0].innerText = "Estado";
+                doc.querySelectorAll(".leyendas > th")[1].innerText = "Casos";
+                doc.querySelectorAll(".leyendas > th")[2].innerText = "Fallecidos";
+                doc.querySelectorAll(".leyendas > th")[3].innerText = "Recuperados";
+                for (let i = 2; i <= 33; i++) {
+                    doc.querySelectorAll("tr")[i].querySelector("th").setAttribute("style", "text-align: right");
+                    if (i === 2) {
+                        doc.querySelectorAll("tr")[i].querySelector("th").innerText = "Ciudad de México";
+                    } else if (i === 3) {
+                        doc.querySelectorAll("tr")[i].querySelector("th").innerText = "Estado de México";
+                    }
+                }
+                doc.querySelector(".sortbottom").remove();
                 sources.classList.add("fuentes-notas");
                 sources.innerHTML = `
                     <p>
                         <b>
-                            ${doc.querySelector(".sortbottom b").innerText}
+                           Fuentes: 
                         </b>        
                     </p>
                     <p>
@@ -50,19 +61,7 @@ export const Table = () => {
                             Instituto de Investigaciones Geológicas y Atmosféricas (2020).
                         </a>
                     </p>
-                    <div class="separador">
                 `;
-                doc.querySelector(".sortbottom").remove();
-                notes.classList.add("fuentes-notas");
-                notes.innerHTML = `
-                    <p>
-                        <b>
-                            ${doc.querySelector(".sortbottom b").innerText}
-                        </b>
-                    </p>
-                    ${doc.querySelector("ol").outerHTML}
-                `;
-                doc.querySelector(".sortbottom").remove();
                 doc.querySelectorAll("a").forEach(i => {
                     i.replaceWith(i.innerText);
                 });
