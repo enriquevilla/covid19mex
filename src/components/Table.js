@@ -40,9 +40,10 @@ export const Table = () => {
                     i.remove();
                 });
                 doc.querySelectorAll(".leyendas > th")[0].innerText = "Estado";
-                doc.querySelectorAll(".leyendas > th")[1].innerText = "Casos";
-                doc.querySelectorAll(".leyendas > th")[2].innerText = "Fallecidos";
-                doc.querySelectorAll(".leyendas > th")[3].innerText = "Recuperados";
+                doc.querySelectorAll(".leyendas > th")[1].innerText = "Casos acumulados";
+                doc.querySelectorAll(".leyendas > th")[2].innerText = "Casos actuales";
+                doc.querySelectorAll(".leyendas > th")[3].innerText = "Fallecidos";
+                doc.querySelectorAll(".leyendas > th")[4].innerText = "Recuperados";
                 for (let i = 2; i <= 33; i++) {
                     doc.querySelectorAll("tr")[i].querySelector("th").setAttribute("style", "text-align: right");
                     if (doc.querySelectorAll("tr")[i].querySelector("th").innerText.search("Mexico City") !== -1) {
